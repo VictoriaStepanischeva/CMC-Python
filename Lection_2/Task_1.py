@@ -36,9 +36,9 @@ def N_max(N, List1, List2):
 
 def main(N, M):
     o = time.time()
-    S1 = [random.random() for elem in range(M)]
-    S2 = [random.random() for elem in range(M)]
-    N_max(int(N), S1, S2)
+    S1 = [random.randint(0,2*M) for elem in range(M)]
+    S2 = [random.randint(0,2*M) for elem in range(M)]
+    print(N_max(int(N), S1, S2))
     oo = time.time()
 
     return oo-o
