@@ -21,11 +21,15 @@ def iterative_merge_sort(All):
     return All
 
 def N_max(N, List1, List2):
+#     List1 = [i for i in set(List1)]
+#     List2 = [i for i in set(List2)]
     List1 = iterative_merge_sort(List1)
     List2 = iterative_merge_sort(List2)
     All = []
     while len(List1) > 0 and len(List2) > 0 and len(All) < N:
-        All.append(List1.pop(0) if List1[0] > List2[0] else List2.pop(0))
+        elem = List1.pop(0) if List1[0] > List2[0] else List2.pop(0)
+#         print("{} {}".format(("List1:" if List1[0] > List2[0] else "List2:"), elem))
+        if not len(All) or elem < All[-1]: All.append(elem)
     else:
         if len(All) < N:
             if len(List1) > 0:
@@ -34,14 +38,16 @@ def N_max(N, List1, List2):
                 All += List2[:N - len(List2)]
     return All
 
-def main(N, M):
-    o = time.time()
-    S1 = [random.randint(0,2*M) for elem in range(M)]
-    S2 = [random.randint(0,2*M) for elem in range(M)]
-    print(N_max(int(N), S1, S2))
-    oo = time.time()
-
-    return oo-o
+def main(N, M, K):
+    full_time = 0
+    for k in range(K):
+        S1 = [random.randint(0,2*M) for elem in range(M)]
+        S2 = [random.randint(0,2*M) for elem in range(M)]
+        o = time.time()
+        print(N_max(int(N), S1, S2))
+        oo = time.time()
+        full_time += oo - o
+    return full_time / K
 
 if __name__=="__main__":
     K = 10
@@ -55,7 +61,5 @@ if __name__=="__main__":
 #                 for i in range(K):
 #                     summ += main(N,M)
 #                 summ /= K
-                s += " time {}\n".format(
-                    functools.reduce(lambda s, e: s + e, (main(N, M) for i in range(K)), 0)/K
-                )
+                s += " time {}\n".format(main(N, M, K))
                 f.write(s)
